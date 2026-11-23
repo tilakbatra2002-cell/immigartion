@@ -34,27 +34,34 @@ cd server && node tests/smoke.mjs      # 71 assertions — requires the API to b
 cd client && npm run build             # production bundle → client/dist
 ```
 
-## Documentation
+## Deployment
 
-| Doc | Contents |
-|---|---|
-| [`docs/01-features.md`](docs/01-features.md) | Complete feature list, module by module |
-| [`docs/02-data-model-and-api.md`](docs/02-data-model-and-api.md) | 18 models, 155 endpoints, response conventions |
-| [`docs/03-environment-variables.md`](docs/03-environment-variables.md) | Every env var, required vs optional |
-| [`docs/04-integrations.md`](docs/04-integrations.md) | Operational vs credentials-required, and what is *not* implemented |
-| [`docs/05-security.md`](docs/05-security.md) | Controls, verification evidence, residual risks |
-| [`docs/06-limitations.md`](docs/06-limitations.md) | Honest inventory of gaps |
-| [`docs/07-deployment.md`](docs/07-deployment.md) | Production deployment (Nginx + systemd), first-run checklist |
-| [`docs/09-github-deploy.md`](docs/09-github-deploy.md) | Push to GitHub + deploy to Render/Vercel |
-| [`docs/10-vercel-deploy.md`](docs/10-vercel-deploy.md) | **Vercel one-click deploy** (SPA + API), env vars, limits |
-| [`docs/08-final-report.md`](docs/08-final-report.md) | Delivery report, bug log, quality-bar evidence |
+One Vercel project serves both the SPA and the API (`vercel.json` at the repo root).
+
+1. Import the repo at [vercel.com/new](https://vercel.com/new), framework preset **Other**
+2. Add environment variables — `MONGODB_URI` (MongoDB Atlas), `MONGODB_DB_NAME`,
+   `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `DATA_ENCRYPTION_KEY` (three different
+   `openssl rand -hex 32` values), `APP_URL`/`API_URL`/`CORS_ORIGINS` set to your
+   `https://*.vercel.app` domain, `NODE_ENV=production`, `TRUST_PROXY=1`, `COOKIE_SAME_SITE=lax`
+3. Deploy, then create the platform admin against Atlas:
+   ```bash
+   cd server
+   MONGODB_URI="mongodb+srv://..." MONGODB_DB_NAME=immigrationflow \
+     JWT_ACCESS_SECRET="<same>" JWT_REFRESH_SECRET="<same>" \
+     node scripts/create-superadmin.mjs --email you@company.com --password 'StrongPass!' --name 'Ops'
+   ```
+4. Verify: `curl https://your-project.vercel.app/api/health` → `"db": "connected"`
+
+**Serverless limitations:** Socket.IO live updates and the background reminder scheduler do not
+run on Vercel. Notifications still persist; the SPA falls back to polling. Set
+`STORAGE_DRIVER=s3` for durable document uploads — local disk is wiped on redeploy.
 
 ## Layout
 
 ```
+api/      Vercel serverless entry (wraps the Express app)
 server/   Express API — config, models, routes (19 modules), services, middleware, scripts, tests
 client/   React SPA — public pages, staff app, client portal, super admin, UI kit
-docs/     Documentation pack + screenshots
 ```
 
 ## Product rules baked into the code
