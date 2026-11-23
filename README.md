@@ -45,6 +45,7 @@ cd client && npm run build             # production bundle → client/dist
 | [`docs/05-security.md`](docs/05-security.md) | Controls, verification evidence, residual risks |
 | [`docs/06-limitations.md`](docs/06-limitations.md) | Honest inventory of gaps |
 | [`docs/07-deployment.md`](docs/07-deployment.md) | Production deployment (Nginx + systemd), first-run checklist |
+| [`docs/09-github-deploy.md`](docs/09-github-deploy.md) | Push to GitHub + deploy to Render/Vercel |
 | [`docs/08-final-report.md`](docs/08-final-report.md) | Delivery report, bug log, quality-bar evidence |
 
 ## Layout
