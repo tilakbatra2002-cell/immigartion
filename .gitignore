@@ -1,0 +1,44 @@
+# ── dependencies ──────────────────────────────────────────────────────
+node_modules/
+
+# ── build output ──────────────────────────────────────────────────────
+dist/
+build/
+.vite/
+
+# ── environment / secrets — NEVER commit ───────────────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+!.env.example
+
+# ── local dev database & sandbox caches (disposable) ───────────────────
+.cache/
+.npm/
+server/.cache/
+server/.devdb/
+.cache/mongodb-binaries/
+.cache/ms-playwright/
+
+# ── local document storage ────────────────────────────────────────────
+server/storage/
+
+# ── logs / editor / OS ────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# ── test artifacts ────────────────────────────────────────────────────
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+.sudo_as_admin_successful

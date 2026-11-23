@@ -1,0 +1,20 @@
+{
+  "name": "immigrationflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-assisted immigration consultancy management — multi-tenant SaaS (React + Express + MongoDB)",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "install:all": "npm --prefix client install && npm --prefix server install",
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "dev:db": "npm --prefix server run dev-db",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server start",
+    "test": "npm --prefix server run test:smoke",
+    "seed:demo": "npm --prefix server run seed:demo"
+  }
+}
