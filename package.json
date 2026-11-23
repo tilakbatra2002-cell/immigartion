@@ -15,6 +15,7 @@
     "build": "npm --prefix client run build",
     "start": "npm --prefix server start",
     "test": "npm --prefix server run test:smoke",
-    "seed:demo": "npm --prefix server run seed:demo"
+    "seed:demo": "npm --prefix server run seed:demo",
+    "postinstall": "npm --prefix client install && npm --prefix server install"
   }
 }
