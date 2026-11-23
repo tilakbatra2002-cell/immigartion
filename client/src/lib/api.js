@@ -2,6 +2,16 @@
  * API client. Access tokens are kept in memory only (never localStorage).
  * The refresh token lives in an HttpOnly, SameSite=Strict cookie set by the server.
  */
+/**
+ * API base URL.
+ *
+ * Defaults to a relative /api path, which is correct when the SPA and the API
+ * share an origin (Vite dev proxy, Nginx, or Vercel serving both).
+ * For a split deployment set VITE_API_BASE_URL (e.g. https://api.example.com/api)
+ * at build time.
+ */
+export const API_BASE = (import.meta.env?.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
+
 let accessToken = null;
 let refreshTokenInMemory = null;
 let onUnauthorized = null;
@@ -40,7 +50,7 @@ let refreshing = null;
 
 async function refreshToken() {
   if (!refreshing) {
-    refreshing = fetch('/api/auth/refresh', {
+    refreshing = fetch(`${API_BASE}/auth/refresh`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -77,7 +87,7 @@ async function request(method, path, body, { retry = true, isForm = false, respo
   }
   let res;
   try {
-    res = await fetch(`/api${path}`, { method, headers, body: payload, credentials: 'include' });
+    res = await fetch(`${API_BASE}${path}`, { method, headers, body: payload, credentials: 'include' });
   } catch {
     throw new ApiError(0, 'Network error — check your connection and try again.');
   }

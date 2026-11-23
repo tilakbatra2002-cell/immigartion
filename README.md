@@ -46,6 +46,7 @@ cd client && npm run build             # production bundle → client/dist
 | [`docs/06-limitations.md`](docs/06-limitations.md) | Honest inventory of gaps |
 | [`docs/07-deployment.md`](docs/07-deployment.md) | Production deployment (Nginx + systemd), first-run checklist |
 | [`docs/09-github-deploy.md`](docs/09-github-deploy.md) | Push to GitHub + deploy to Render/Vercel |
+| [`docs/10-vercel-deploy.md`](docs/10-vercel-deploy.md) | **Vercel one-click deploy** (SPA + API), env vars, limits |
 | [`docs/08-final-report.md`](docs/08-final-report.md) | Delivery report, bug log, quality-bar evidence |
 
 ## Layout

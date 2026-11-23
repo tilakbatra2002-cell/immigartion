@@ -32,8 +32,8 @@ export default function Reports() {
   const exportCsv = async (title, columns, rows) => {
     if (!can('reports.export')) { toast.error('Export not permitted', 'Your role cannot export reports.'); return; }
     try {
-      const { getAccessToken } = await import('../../lib/api');
-      const res = await fetch('/api/reports/export-csv', {
+      const { getAccessToken, API_BASE } = await import('../../lib/api');
+      const res = await fetch(`${API_BASE}/reports/export-csv`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getAccessToken()}` },
         body: JSON.stringify({ title, columns, rows }),

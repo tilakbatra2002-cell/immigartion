@@ -42,3 +42,6 @@ coverage/
 playwright-report/
 test-results/
 .sudo_as_admin_successful
+
+# vercel
+.vercel/

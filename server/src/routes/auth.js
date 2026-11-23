@@ -27,7 +27,10 @@ const slugify = (s) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replac
 const cookieOptions = () => ({
   httpOnly: true,
   secure: env.NODE_ENV === 'production',
-  sameSite: 'strict',
+  // 'lax' is required on Vercel: the SPA and the API can live on different
+  // *.vercel.app hostnames, and SameSite=Strict would drop the cookie there.
+  // Set COOKIE_SAME_SITE=strict for single-origin deployments if you prefer.
+  sameSite: env.COOKIE_SAME_SITE === 'strict' ? 'strict' : 'lax',
   path: '/api/auth',
   domain: env.COOKIE_DOMAIN || undefined,
   maxAge: env.REFRESH_TOKEN_DAYS * 24 * 3600 * 1000,

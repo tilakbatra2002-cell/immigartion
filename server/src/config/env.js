@@ -20,6 +20,8 @@ const schema = z.object({
   ACCESS_TOKEN_TTL: z.coerce.number().default(900), // 15 minutes
   REFRESH_TOKEN_DAYS: z.coerce.number().default(7),
   COOKIE_DOMAIN: z.string().optional(),
+  // 'lax' (default) works across *.vercel.app hosts; 'strict' for single-origin
+  COOKIE_SAME_SITE: z.enum(['lax', 'strict']).default('lax'),
   CORS_ORIGINS: z.string().default('http://localhost:5173'),
   TRUST_PROXY: z.string().default('1'),
 
@@ -100,6 +102,10 @@ if (isProd) {
     // eslint-disable-next-line no-console
     console.error('[ImmigrationFlow] STORAGE_DRIVER=s3 requires S3_BUCKET, S3_ACCESS_KEY_ID and S3_SECRET_ACCESS_KEY.');
     process.exit(1);
+  }
+  if (env.STORAGE_DRIVER === 'local') {
+    // eslint-disable-next-line no-console
+    console.warn('[ImmigrationFlow] STORAGE_DRIVER=local in production: the filesystem is ephemeral on serverless hosts (Vercel) and may be wiped on redeploy. Set STORAGE_DRIVER=s3 for durable uploads.');
   }
 }
 
